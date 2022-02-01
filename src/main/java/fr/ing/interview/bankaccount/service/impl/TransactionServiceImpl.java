@@ -29,7 +29,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public void save(TransactionDTO transactionDTO, Account account,TransactionType transactionType) {
         Transaction transaction = new Transaction();
-        transaction.setAccount(account);
+      //  transaction.setAccount(account);
         transaction.setAmount(transactionDTO.getAmount().doubleValue());
         transaction.setDate(LocalDate.now());
         transaction.setTransactionType(TransactionType.DEPOSIT);

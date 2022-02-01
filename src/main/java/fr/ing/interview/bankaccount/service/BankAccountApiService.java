@@ -50,8 +50,8 @@ public class BankAccountApiService implements BankAccountKataApiDelegate {
 
     @Override
     public ResponseEntity<Boolean> deposit(String accountId, TransactionDTO transactionDTO) {
-        Account account = accountService.retrieve(accountId);
         accountService.deposit(accountId,transactionDTO.getAmount());
+        Account account = accountService.retrieve(accountId);
         transactionService.save(transactionDTO, account, TransactionType.DEPOSIT);
         return   ResponseEntity.ok(true);
     }
