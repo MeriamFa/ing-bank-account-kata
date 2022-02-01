@@ -13,6 +13,8 @@ public class Transaction implements Serializable {
 
     @Column(name = "id", updatable = false, nullable = false )
     @Id
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid2")
     private String id;
 
 
@@ -28,7 +30,9 @@ public class Transaction implements Serializable {
     @Column(name = "TRANSACTION_AMOUNT")
     private Double amount;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+
+
+    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE})
     @JoinColumn(name = "account_id",referencedColumnName = "id")
     private Account account;
 
@@ -70,5 +74,29 @@ public class Transaction implements Serializable {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Transaction)) return false;
+
+        Transaction that = (Transaction) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (transactionType != that.transactionType) return false;
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        if (amount != null ? !amount.equals(that.amount) : that.amount != null) return false;
+        return account != null ? account.equals(that.account) : that.account == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (transactionType != null ? transactionType.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (amount != null ? amount.hashCode() : 0);
+        result = 31 * result + (account != null ? account.hashCode() : 0);
+        return result;
     }
 }

@@ -14,6 +14,8 @@ public class Customer implements Serializable {
 
     @Column(name = "id", updatable = false, nullable = false )
     @Id
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid2")
     private String id;
 
     @NotNull

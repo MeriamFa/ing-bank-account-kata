@@ -14,6 +14,8 @@ public class Account implements Serializable {
 
     @Column(name = "id", updatable = false, nullable = false )
     @Id
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid2")
     private String id;
 
 
@@ -26,7 +28,6 @@ public class Account implements Serializable {
 
     @OneToMany(mappedBy = "account", orphanRemoval = true, fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
     private Set<Transaction> transactions = new HashSet<>();
-
 
 
     @PrePersist
